@@ -1,0 +1,437 @@
+USE [master]
+GO
+
+CREATE DATABASE [Prj_Shopping_Ivymoda]
+GO
+ALTER DATABASE [Prj_Shopping_Ivymoda] SET COMPATIBILITY_LEVEL = 150
+GO
+IF (1 = FULLTEXTSERVICEPROPERTY('IsFullTextInstalled'))
+begin
+EXEC [Prj_Shopping_Ivymoda].[dbo].[sp_fulltext_database] @action = 'enable'
+end
+GO
+ALTER DATABASE [Prj_Shopping_Ivymoda] SET ANSI_NULL_DEFAULT OFF 
+GO
+ALTER DATABASE [Prj_Shopping_Ivymoda] SET ANSI_NULLS OFF 
+GO
+ALTER DATABASE [Prj_Shopping_Ivymoda] SET ANSI_PADDING OFF 
+GO
+ALTER DATABASE [Prj_Shopping_Ivymoda] SET ANSI_WARNINGS OFF 
+GO
+ALTER DATABASE [Prj_Shopping_Ivymoda] SET ARITHABORT OFF 
+GO
+ALTER DATABASE [Prj_Shopping_Ivymoda] SET AUTO_CLOSE OFF 
+GO
+ALTER DATABASE [Prj_Shopping_Ivymoda] SET AUTO_SHRINK OFF 
+GO
+ALTER DATABASE [Prj_Shopping_Ivymoda] SET AUTO_UPDATE_STATISTICS ON 
+GO
+ALTER DATABASE [Prj_Shopping_Ivymoda] SET CURSOR_CLOSE_ON_COMMIT OFF 
+GO
+ALTER DATABASE [Prj_Shopping_Ivymoda] SET CURSOR_DEFAULT  GLOBAL 
+GO
+ALTER DATABASE [Prj_Shopping_Ivymoda] SET CONCAT_NULL_YIELDS_NULL OFF 
+GO
+ALTER DATABASE [Prj_Shopping_Ivymoda] SET NUMERIC_ROUNDABORT OFF 
+GO
+ALTER DATABASE [Prj_Shopping_Ivymoda] SET QUOTED_IDENTIFIER OFF 
+GO
+ALTER DATABASE [Prj_Shopping_Ivymoda] SET RECURSIVE_TRIGGERS OFF 
+GO
+ALTER DATABASE [Prj_Shopping_Ivymoda] SET  DISABLE_BROKER 
+GO
+ALTER DATABASE [Prj_Shopping_Ivymoda] SET AUTO_UPDATE_STATISTICS_ASYNC OFF 
+GO
+ALTER DATABASE [Prj_Shopping_Ivymoda] SET DATE_CORRELATION_OPTIMIZATION OFF 
+GO
+ALTER DATABASE [Prj_Shopping_Ivymoda] SET TRUSTWORTHY OFF 
+GO
+ALTER DATABASE [Prj_Shopping_Ivymoda] SET ALLOW_SNAPSHOT_ISOLATION OFF 
+GO
+ALTER DATABASE [Prj_Shopping_Ivymoda] SET PARAMETERIZATION SIMPLE 
+GO
+ALTER DATABASE [Prj_Shopping_Ivymoda] SET READ_COMMITTED_SNAPSHOT OFF 
+GO
+ALTER DATABASE [Prj_Shopping_Ivymoda] SET HONOR_BROKER_PRIORITY OFF 
+GO
+ALTER DATABASE [Prj_Shopping_Ivymoda] SET RECOVERY FULL 
+GO
+ALTER DATABASE [Prj_Shopping_Ivymoda] SET  MULTI_USER 
+GO
+ALTER DATABASE [Prj_Shopping_Ivymoda] SET PAGE_VERIFY CHECKSUM  
+GO
+ALTER DATABASE [Prj_Shopping_Ivymoda] SET DB_CHAINING OFF 
+GO
+ALTER DATABASE [Prj_Shopping_Ivymoda] SET FILESTREAM( NON_TRANSACTED_ACCESS = OFF ) 
+GO
+ALTER DATABASE [Prj_Shopping_Ivymoda] SET TARGET_RECOVERY_TIME = 60 SECONDS 
+GO
+ALTER DATABASE [Prj_Shopping_Ivymoda] SET DELAYED_DURABILITY = DISABLED 
+GO
+ALTER DATABASE [Prj_Shopping_Ivymoda] SET ACCELERATED_DATABASE_RECOVERY = OFF  
+GO
+EXEC sys.sp_db_vardecimal_storage_format N'ProjectPRO', N'ON'
+GO
+ALTER DATABASE [Prj_Shopping_Ivymoda] SET QUERY_STORE = OFF
+GO
+USE [Prj_Shopping_Ivymoda]
+GO
+/****** Object:  Table [dbo].[Account]    Script Date: 7/18/2022 3:03:44 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Account](
+	[id] [int] IDENTITY(1,1) NOT NULL,
+	[username] [varchar](255) NULL,
+	[password] [varchar](255) NULL,
+	[role] [int] NULL,
+ CONSTRAINT [PK__Account__DD771E3CBA19E034] PRIMARY KEY CLUSTERED 
+(
+	[id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[Cart]    Script Date: 7/18/2022 3:03:44 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Cart](
+	[AccountID] [int] NOT NULL,
+	[ProductID] [int] NOT NULL,
+	[Amount] [int] NULL,
+ CONSTRAINT [PK_Cart] PRIMARY KEY CLUSTERED 
+(
+	[AccountID] ASC,
+	[ProductID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[Category]    Script Date: 7/18/2022 3:03:44 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Category](
+	[cid] [int] IDENTITY(1,1) NOT NULL,
+	[cname] [nvarchar](50) NOT NULL,
+	[quantity] [int] NOT NULL,
+ CONSTRAINT [PK_Category] PRIMARY KEY CLUSTERED 
+(
+	[cid] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[Order]    Script Date: 7/18/2022 3:03:44 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Order](
+	[id] [int] IDENTITY(1,1) NOT NULL,
+	[accountId] [int] NOT NULL,
+	[totalPrice] [float] NOT NULL,
+	[note] [nvarchar](max) NOT NULL,
+	[createdDate] [date] NOT NULL,
+	[status] [bit] NULL,
+ CONSTRAINT [PK_Order] PRIMARY KEY CLUSTERED 
+(
+	[id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[OrderDetail]    Script Date: 7/18/2022 3:03:44 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[OrderDetail](
+	[id] [int] IDENTITY(1,1) NOT NULL,
+	[order_id] [int] NOT NULL,
+	[quantity] [int] NOT NULL,
+	[productId] [int] NOT NULL,
+ CONSTRAINT [PK_OrderDetail] PRIMARY KEY CLUSTERED 
+(
+	[id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[OrderHistory]    Script Date: 7/18/2022 3:03:44 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[OrderHistory](
+	[id] [int] IDENTITY(1,1) NOT NULL,
+	[accountId] [int] NOT NULL,
+	[totalPrice] [float] NOT NULL,
+	[note] [nvarchar](max) NOT NULL,
+	[createdDate] [date] NOT NULL,
+	[confirmDate] [date] NOT NULL,
+	[shippingId] [int] NOT NULL,
+	[orderId] [int] NOT NULL,
+ CONSTRAINT [PK_OrderHistory] PRIMARY KEY CLUSTERED 
+(
+	[id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[product]    Script Date: 7/18/2022 3:03:44 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[product](
+	[id] [int] IDENTITY(1,1) NOT NULL,
+	[name] [nvarchar](max) NOT NULL,
+	[code] [nvarchar](max) NOT NULL,
+	[color] [nvarchar](max) NOT NULL,
+	[image] [nvarchar](max) NOT NULL,
+	[price] [money] NOT NULL,
+	[description] [nvarchar](max) NULL,
+	[quantity] [int] NOT NULL,
+	[cateID] [int] NOT NULL,
+	[status] [bit] NULL,
+ CONSTRAINT [PK_product] PRIMARY KEY CLUSTERED 
+(
+	[id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[Shipping]    Script Date: 7/18/2022 3:03:44 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Shipping](
+	[id] [int] IDENTITY(1,1) NOT NULL,
+	[name] [nvarchar](max) NOT NULL,
+	[phone] [nvarchar](max) NOT NULL,
+	[address] [nvarchar](max) NOT NULL,
+	[order_id] [int] NULL,
+ CONSTRAINT [PK_Shipping] PRIMARY KEY CLUSTERED 
+(
+	[id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[UserInfo]    Script Date: 7/18/2022 3:03:44 PM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[UserInfo](
+	[id] [int] IDENTITY(1,1) NOT NULL,
+	[First_Name] [nvarchar](max) NOT NULL,
+	[Last_Name] [nvarchar](max) NOT NULL,
+	[Birthday] [date] NULL,
+	[Gender] [bit] NULL,
+	[Email] [nvarchar](max) NOT NULL,
+	[PhoneNumber] [nvarchar](max) NOT NULL,
+	[Username] [nvarchar](max) NOT NULL,
+	[Password] [nvarchar](max) NOT NULL,
+	[Address] [nvarchar](max) NULL,
+	[AccountId] [int] NOT NULL,
+ CONSTRAINT [PK_registerInfo] PRIMARY KEY CLUSTERED 
+(
+	[id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+GO
+SET IDENTITY_INSERT [dbo].[Account] ON 
+GO
+INSERT [dbo].[Account] ([id], [username], [password], [role]) VALUES (1, N'Admin', N'1234', 1)
+GO
+INSERT [dbo].[Account] ([id], [username], [password], [role]) VALUES (2, N'sang', N'1234', 0)
+GO
+SET IDENTITY_INSERT [dbo].[Account] OFF
+select * from Account
+GO
+SET IDENTITY_INSERT [dbo].[Category] ON 
+GO
+INSERT [dbo].[Category] ([cid], [cname], [quantity]) VALUES (1, N'Váy', 200)
+GO
+INSERT [dbo].[Category] ([cid], [cname], [quantity]) VALUES (2, N'Áo Nữ', 200)
+GO
+INSERT [dbo].[Category] ([cid], [cname], [quantity]) VALUES (3, N'Áo Nam', 200)
+GO
+INSERT [dbo].[Category] ([cid], [cname], [quantity]) VALUES (4, N'Quần Nam', 200)
+GO
+INSERT [dbo].[Category] ([cid], [cname], [quantity]) VALUES (5, N'Trẻ em', 200)
+GO
+SET IDENTITY_INSERT [dbo].[Category] OFF
+GO
+SET IDENTITY_INSERT [dbo].[Order] ON 
+GO
+INSERT [dbo].[Order] ([id], [accountId], [totalPrice], [note], [createdDate], [status]) VALUES (1, 2, 40, N'', CAST(N'2022-10-28' AS Date), 1)
+GO
+SET IDENTITY_INSERT [dbo].[Order] OFF
+GO
+SET IDENTITY_INSERT [dbo].[OrderDetail] ON 
+GO
+INSERT [dbo].[OrderDetail] ([id], [order_id], [quantity], [productId]) VALUES (1, 1, 1, 3)
+GO
+SET IDENTITY_INSERT [dbo].[OrderDetail] OFF
+GO
+SET IDENTITY_INSERT [dbo].[OrderHistory] ON 
+GO
+INSERT [dbo].[OrderHistory] ([id], [accountId], [totalPrice], [note], [createdDate], [confirmDate], [shippingId], [orderId]) VALUES (1, 2, 40, N'', CAST(N'2022-10-28' AS Date), CAST(N'2022-10-28' AS Date), 1, 1)
+GO
+SET IDENTITY_INSERT [dbo].[OrderHistory] OFF
+GO
+SET IDENTITY_INSERT [dbo].[product] ON 
+INSERT [dbo].[product] ([id], [name],[code],[color], [image], [price], [description], [quantity], [cateID], [status]) VALUES
+(1, N'ÁO BLAZER KẺ VÀNG VÀ QUẦN LỬNG','FE42',N'Xám', N'sp5.1.jpg', 660.000, N'Là một item cách điệu của những chiếc áo vest dáng dài mang hơi hướng hiện đại và thời trang. Áo Blazer là một trong những item được phái đẹp ưa chuộng nhất trong mùa thu bởi tính ứng dụng cao và không bao giờ lỗi mốt. IVY ra mắt thiết kế áo Blazer trẻ trung, họa tiết kẻ đối xứng nhau tạo nên sự cao cấp cho sản phẩm. Điểm nhấn khác biệt là chi tiết tay may lửng nhẹ nhàng, đối lập với chi tiết độn vai nam tính, mang lại một tổng thể hài hòa, cân bằng. Thiết kế quần lửng dáng baggy có 2 túi chéo 2 bên. Cài bằng khóa kéo ẩn bên hông. Quần cạp cao phối khuy.', 8, 1, 0)
+GO
+INSERT [dbo].[product] ([id], [name],[code],[color], [image], [price], [description], [quantity], [cateID], [status]) VALUES (2, N'ÁO KHOÁC ĐÍNH HOA','GF23',N'Đỏ', N'sp3.1.jpg', 330.0000, N' Thiết kế chân váy chữ A, cạp cao khéo léo tôn lên đôi chân nàng, tạo hiệu ứng chân dài và thon hơn. Không những vậy chân váy dáng ngắn còn mang lại sự trẻ trung cho người mặc. Điểm nhấn của chân váy là chi tiết hoa đính nổi phía trước. Cài bằng khóa kéo ẩn phía sau. Chất liệu tuysi là loại vải cao cấp, là sự lựa chọn hàng đầu của các nhà mốt dành cho các thiết kế đòi hỏi sự thanh lịch, sang trọng mà vẫn đảm bảo sự thoải mái. Chân váy 2 lớp chất liệu vải tuysi mềm nhẹ, thoáng mát, ít nhăn và giữ form dáng tốt. ', 9, 1, 1)
+GO
+INSERT [dbo].[product] ([id], [name],[code],[color], [image], [price], [description], [quantity], [cateID], [status]) VALUES (3, N'ĐẦM DẬP NỔI TAY LỠ','GF64',N'Trắng', N'sp4.1.jpeg', 140.0000,N'Là một item cách điệu của những chiếc áo vest dáng dài mang hơi hướng hiện đại và thời trang. Áo Blazer là một trong những item được phái đẹp ưa chuộng nhất trong mùa thu bởi tính ứng dụng cao và không bao giờ lỗi mốt. IVY ra mắt thiết kế áo Blazer trẻ trung, họa tiết kẻ đối xứng nhau tạo nên sự cao cấp cho sản phẩm. Điểm nhấn khác biệt là chi tiết tay may lửng nhẹ nhàng, đối lập với chi tiết độn vai nam tính, mang lại một tổng thể hài hòa, cân bằng. Thiết kế quần lửng dáng baggy có 2 túi chéo 2 bên. Cài bằng khóa kéo ẩn bên hông. Quần cạp cao phối khuy.' , 8, 1, 1)
+GO
+INSERT [dbo].[product] ([id], [name],[code],[color], [image], [price], [description], [quantity], [cateID], [status]) VALUES (4, N'ĐẦM SƠ MI NHÚN THÂN','HJ64',N'Xám', N'sp6.1.jpg', 100.0000, N'Chất liệu tuysi là loại vải cao cấp, là sự lựa chọn hàng đầu của các nhà mốt dành cho các thiết kế đòi hỏi sự thanh lịch, sang trọng mà vẫn đảm bảo sự thoải mái. Áo Blazer 2 lớp chất liệu vải tuysi mềm nhẹ, thoáng mát, ít nhăn và giữ form dáng tốt. ', 9, 1, 1)
+GO
+INSERT [dbo].[product] ([id], [name],[code],[color], [image], [price], [description], [quantity], [cateID], [status]) VALUES (5, N'SÉT ÁO BLAZER THOW', 'XC54',N'Đen',N'sp2.1.jpg', 120.0000, N'Blazer trẻ trung, họa tiết kẻ đối xứng nhau tạo nên sự cao cấp cho sản phẩm. Điểm nhấn khác biệt là chi tiết tay may lửng nhẹ nhàng, đối lập với chi tiết độn vai nam tính, mang lại một tổng thể hài hòa, cân bằng. Thiết kế quần lửng dáng baggy có 2 túi chéo 2 bên. Cài bằng khóa kéo ẩn bên hông. Quần cạp cao phối khuy.', 10, 1, 1)
+GO
+INSERT [dbo].[product] ([id], [name],[code],[color], [image], [price], [description], [quantity], [cateID], [status]) VALUES (6, N'SET ÁO TWEED BLAZER VÀ QUẦN SOOC','GD52',N'Xám', N'sp5.2.jpg', 299.090, N'Nằm trong BST lần này, áo Tweed Blazer là sự kế thừa vẻ tinh tế trong thiết kế áo vest cổ điển: cổ 2 ve, 2 hàng khuy cài, vai độn, chiết eo; biến tấu cùng đường may và màu sắc, chất liệu, phụ kiện được tuyển chọn kĩ càng đã tạo nên một thiết kế áo Blazer nữ tính, hiện đại. Nhằm mang lại diện mạo trẻ trung hơn và giảm bớt sự "nghiêm túc" cho set đồ, áo Blazer được mix cùng quần sooc ngắn với thiết kế may vạt lệch giả váy, đính kèm khuy kim loại tạo sự đồng bộ và điểm nhấm cho cả bộ trang phục. ', 10, 1, 1)
+
+INSERT [dbo].[product] ([id], [name],[code],[color], [image], [price], [description], [quantity], [cateID], [status]) VALUES (7, N'QUẦN CHIPPON DẬP LY DÁNG DÀI','HK54',N'Xám đen', N'sp7.1.jpg', 290.000, N'Sản phẩm thuộc BST Timeless và được trình diễn trong show thời trang Fall Winter 2022. Bộ sưu tập lấy cảm hứng từ phong cách thời trang Academia, cộng hưởng với những ý tưởng sáng tạo đầy xu hướng, mang đến diện mạo học thức vượt ra khỏi khái niệm sắc đẹp đơn thuần.', 9, 1, 1)
+
+INSERT [dbo].[product] ([id], [name],[code],[color], [image], [price], [description], [quantity], [cateID], [status]) VALUES (8, N'SET ÁO BLAZER VÀ CHÂN VÁY XẾP LY',N'BN54',N'Vàng Âu', N'sp8.1.jpg', 399.000, N'- Áo khoác dài tay dáng ngắn, cổ tròn. Cài bằng hàng khuy kim loại, Trước ngực có 2 túi nhỏ tạo kiểu', 10, 1, 1)
+
+INSERT [dbo].[product] ([id], [name],[code],[color], [image], [price], [description], [quantity], [cateID], [status]) VALUES (9, N'SET ÁO KHOÁC VÀ CHÂN VÁY TWEED',N'CX27',N'Đen', N'sp9.1.jpeg', 199.000, N'Chân váy bút chì, cạp cao, độ dài qua đầu gối, xẻ sau. Cài bằng khóa kéo phía sau. 2 túi nhỏ phía trước', 10, 1, 1)
+
+INSERT [dbo].[product] ([id], [name],[code],[color], [image], [price], [description], [quantity], [cateID], [status]) VALUES (10, N'ĐẦM VEST CÁCH ĐIỆU XẾP LY',N'LK12' ,N'Đen',N'sp2.2.jpg', 299.000, N' Phần áo may cách điệu, vai độn nhẹ. Áo xẻ tà lệch 1 bên liển chân váy 2 lớp xếp ly xòe', 10, 1, 1)
+
+INSERT [dbo].[product] ([id], [name],[code],[color], [image], [price], [description], [quantity], [cateID], [status]) VALUES (11, N'ĐẦM DỰ TIỆC ĐÍNH HOA', N'VC43',N'Đen', N'sp9.2.jpeg', 130.000, N' Đầm dáng dài, độ dài ngang bắp chân. 2 túi chéo 2 bên. Cài bằng khóa kéo phía sau', 10, 1, 1)
+GO
+INSERT [dbo].[product] ([id], [name],[code],[color], [image], [price], [description], [quantity], [cateID], [status]) VALUES (12, N'ĐẦM XÒE KHOÉT NGỰC',N'LK32',N'Trắng', N'sp1.1.jpeg', 510.000, N'Màu sắc sản phẩm thực tế sẽ có sự chênh lệch nhỏ so với ảnh do điều kiện ánh sáng khi chụp và màu sắc hiển thị qua mản hình máy tính/ điện thoại.', 10, 1, 1)
+GO
+INSERT [dbo].[product] ([id], [name],[code],[color], [image], [price], [description], [quantity], [cateID], [status]) VALUES (13, N'ĐẦM VEST TAY BỒNG',N'JN43',N'Trắng', N'sp4.2.jpeg', 150.000, N'- Đầm chiết eo cao, chân váy chữ A xòe nhẹ. Cài bằng hàng khuy phía trước', 10, 1, 1)
+GO
+INSERT [dbo].[product] ([id], [name],[code],[color], [image], [price], [description], [quantity], [cateID], [status]) VALUES (14, N'ĐẦM DẠ HỘI ĐÍNH TRÁI TIM',N'CZ32',N'Đỏ đô', N'sp3.2.jpg', 486.000, N'Sang trọng nhưng không kém phần duyên dáng, chiếc đầm dạ hội này sẽ giúp nàng trở thành tâm điểm tại mọi bữa tiệc. Thiết kế vai áo tinh tế khéo léo che đi khuyết điểm khiến nàng chưa tự tin. Dáng đầm ôm nhẹ tôn lên trọn vẹn đường cong cơ thể nàng. Phía trước là phụ kiện kim loại nổi bật giúp nâng tầm khí chất người mặc.', 10, 1, 1)
+
+INSERT [dbo].[product] ([id], [name],[code],[color], [image], [price], [description], [quantity], [cateID], [status]) VALUES (15, N'SET ÁO SƠ MI DẠ KẺ KÈM CHÂN VÁY',N'KJ43',N'Đen', N'sp2.1.jpg', 240.000, N'Áo khoác dáng sơ mi dáng oversize, cổ đức, 2 túi vuông phía trước. Phần vai áo phối vải khác', 8, 2, 1)
+INSERT [dbo].[product] ([id], [name],[code],[color], [image], [price], [description], [quantity], [cateID], [status]) VALUES (16, N'ÁO SƠ MI CỔ SEN',N'GV43' ,N'Trắng',N'sp4.1.jpeg', 200.0000, N'Áo sơ mi cổ sen, cổ may tạo kiểu', 10, 2, 1)
+GO
+GO
+INSERT [dbo].[product] ([id], [name],[code],[color], [image], [price], [description], [quantity], [cateID], [status]) VALUES (17, N'ÁO SƠ MI PHỐI VẢI TWEED',N'VG34' ,N'Vàng Đậm',N'sp8.2.jpg', 300.000, N'Phía trước phối túi vuông giả chất vải tweed', 10, 2, 1)
+GO
+INSERT [dbo].[product] ([id], [name],[code],[color], [image], [price], [description], [quantity], [cateID], [status]) VALUES (18, N'ÁO SƠ MI LỤA PHỐI NÚT',N'HJ43',N'Đen', N'sp9.2.jpeg', 140.000, N'Tay dài bo chun co giãn ở gấu. Có đường xếp ly 2 bên. Có hàng khuy móc cài dải từ viền cổ xuống.', 10, 2, 1)
+GO
+INSERT [dbo].[product] ([id], [name],[code],[color], [image], [price], [description], [quantity], [cateID], [status]) VALUES (19, N'ÁO SƠ MI IN HỌA TIẾT', N'VC43',N'Xám Nhạt', N'sp5.3.jpg', 179.000, N'Phía bên phải in họa tiết hoa, bên trái phối túi ngực vuông', 10, 2, 1)
+GO
+INSERT [dbo].[product] ([id], [name],[code],[color], [image], [price], [description], [quantity], [cateID], [status]) VALUES (20, N'ÁO SƠ MI LỤA CỔ THÊU HỌA TIẾT',N'GJ42',N'Đỏ Thẫm', N'sp3.4.jpg', 150.000, N'Áo sơ mi cổ thêu viền cách điệu. Tay lửng bo gấu, phần vai xếp ly nhún phồng. Dáng áo suông, chất liểu vải lụa mềm nhẹ.', 10, 2, 1)
+GO
+INSERT [dbo].[product] ([id], [name],[code],[color], [image], [price], [description], [quantity], [cateID], [status]) VALUES (21, N'ÁO SƠ MI PHỐI TÚI CÁCH ĐIỆU',N'HG34',N'Đen ', N'sp9.2.jpeg', 696.000, NULL, 10, 2, 1)
+GO
+INSERT [dbo].[product] ([id], [name],[code],[color], [image], [price], [description], [quantity], [cateID], [status]) VALUES (22, N'ÁO SƠ MI KẺ',N'BH43',N'Vàng Xọc', N'm1.1.jpg', 170.0000, N'Áo sơ mi dáng regular fit, cổ đức, tay ngắn.', 10, 3, 1)
+INSERT [dbo].[product] ([id], [name],[code],[color], [image], [price], [description], [quantity], [cateID], [status]) VALUES (24, N'ÁO POLO KẺ NGANG',N'DA54',N'Da Cam', N'm1.3.jpg', 145.000, N'Thiết kế cổ áo phối vải khác chất liệu cùng hàng 3 khuy cài. Ngực phải in logo METAGENT', 10, 3, 1)
+
+
+
+INSERT [dbo].[product] ([id], [name],[code],[color], [image], [price], [description], [quantity], [cateID], [status]) VALUES (25, N'ÁO POLO THUN VIỀN CỔ',N'HU43',N'Xanh Lục', N'm2.1.jpg', 195.000, N'Áo Polo dáng regular fit. Phần tay áo được bo viền', 10, 3, 1)
+INSERT [dbo].[product] ([id], [name],[code],[color], [image], [price], [description], [quantity], [cateID], [status]) VALUES (26, N'ÁO POLO SLIM FIT',N'HY43',N'Xanh Than', N'm2.2.jpg', 225.000, N'Chất vải thun thoải mái, mát mẻ', 10, 3, 1)
+INSERT [dbo].[product] ([id], [name],[code],[color], [image], [price], [description], [quantity], [cateID], [status]) VALUES (27, N'ÁO POLO SUÔNG',N'NJ34',N'Xanh Nhạt', N'm3.1.jpg', 145.000, N'Áo cổ đức tay ngắn với chiều dài vừa phải và chất liệu thun co dãn thoải mái sẽ là lựa chọn lí tưởng cho những buổi hẹn hò, đi chơi, phù hợp cả khi mặc đi làm và đi học.', 10, 3, 1)
+INSERT [dbo].[product] ([id], [name],[code],[color], [image], [price], [description], [quantity], [cateID], [status]) VALUES (28, N'ÁO POLO CỔ TÀU TRỤ',N'NV43',N'Xanh Da Trời' ,N'm3.2.jpg', 145.000, N'Với chất liệu thoáng mát và thấm mồ hôi giúp người mặc có thể thoải mái vận động mà không lo nóng. Họa tiết kẻ ngang trẻ trung cùng cổ tàu trụ sẽ là điểm nhấn thu hút ánh nhìn của mọi người. Có thể mặc đi làm, đi học hay đi chơi đều rất phù hợp.', 10, 3, 1)
+INSERT [dbo].[product] ([id], [name],[code],[color], [image], [price], [description], [quantity], [cateID], [status]) VALUES (29, N'ÁO POLO THUN TRƠN',N'HJ32',N'Đen', N'm3.3.jpg', 145.000, N'Áo Polo dáng regular fit, tay ngắn. Phần tay áo được bo viền', 10, 3, 1)
+INSERT [dbo].[product] ([id], [name],[code],[color], [image], [price], [description], [quantity], [cateID], [status]) VALUES (30, N'ÁO POLO KẺ MỜ',N'XH43',N'Xanh Da Trời', N'm4.1.jpg', 165.000,  N'Áo thun tay ngắn cổ đức. Họa tiết kẻ mờ. Cổ bẻ ngang trẻ trung. Phía trước có 3 khuy cài. Ống tay được bo nhẹ ở phần đầu.',10, 3, 1)
+GO
+INSERT [dbo].[product] ([id], [name],[code],[color], [image], [price], [description], [quantity], [cateID], [status]) VALUES (31, N'ÁO POLO NAM MÀU ĐEN',N'TR43',N'Đen', N'm2.3.jpg', 125.000, N'Chất liệu vải pique dệt - cotton sợi dệt mặt lưới, tạo ra được độ mềm và thoáng cho những người ưa vận động hay chơi thể thao, độ thấm hút mồ hôi tốt và có khả năng co giãn 4 chiều, đem đến cảm giác vô cùng thoải mái, dễ chịu khi sử dụng.', 10, 3, 1)
+GO
+INSERT [dbo].[product] ([id], [name],[code],[color], [image], [price], [description], [quantity], [cateID], [status]) VALUES (32, N'ÁO POLO IVY MEN',N'GB23',N'Xanh Nhạt' ,N'm4.1.jpg', 195.000, N'Form áo Regular Fit viền chun co giãn ở tay áo giúp người mặc trở nên khỏe khoắn và năng động hơn. Phần cổ áo được may bằng vải từ thân áo với 3 khuy cài tạo nên thiết kế mới mẻ, trẻ trung và đầy sức sống.', 10, 3, 1)
+GO
+INSERT [dbo].[product] ([id], [name],[code],[color], [image], [price], [description], [quantity], [cateID], [status]) VALUES (33, N'QUẦN BÒ NAM SLIM FIT',N'XZ43',N'Xanh Đậm', N'q1.1.jfif', 260.0000, N'Quần jeans dài chạm mắt cá chân', 10, 4, 1)
+GO
+INSERT [dbo].[product] ([id], [name],[code],[color], [image], [price], [description], [quantity], [cateID], [status]) VALUES (34, N'QUẦN BÒ SKINNY',N'QX43',N'Xanh Nhạt', N'q2.1.jfif', 295.000, N' Quần bò dáng skinny ôm nhẹ. Phía trước được đánh bạc sáng màu. Thiết kế năng động và trẻ trung, phù hợp cho những dịp đi chơi của chàng', 10, 4, 1)
+GO
+INSERT [dbo].[product] ([id], [name],[code],[color], [image], [price], [description], [quantity], [cateID], [status]) VALUES (35, N'QUẦN DENIM TRƠN',N'LO43',N'Đen', N'q3.1.jfif', 285.000, N'Quần dài chất liệu denim. Form dài chạm mắt cá chân. Dáng slim fit có độ ôm nhẹ ở hông và suông dần xuống dưới. Phía trước có khóa kéo và khuy kim loại. 2 bên có 2 túi chéo. Đằng sau có túi hộp. ', 10, 4, 1)
+GO
+INSERT [dbo].[product] ([id], [name],[code],[color], [image], [price], [description], [quantity], [cateID], [status]) VALUES (36, N'QUẦN BÒ VẢI SÁNG', N'UY54',N'Xanh Trắng',N'q4.1.jfif', 540.000, N'Quần jeans ống đứng. Gấu lật. Có 5 túi. Mặt trước mài sáng. Cài phía trước bằng khóa kéo và khuy. Phù hợp với mọi tỉ lệ cơ thể cũng như biến hóa với gần như tất cả outfit của bạn. ', 10, 4, 1)
+GO
+INSERT [dbo].[product] ([id], [name],[code],[color], [image], [price], [description], [quantity], [cateID], [status]) VALUES (37, N'QUẦN BÒ SLIM FIT',N'JL43',N'Đen', N'q5.1.jfif', 330.000, N'Một chiếc quần jean với gam đen bạc chính là item cần thiết trong tủ đồ của bất kỳ chàng trai nào. Thiết slim fit ôm nhẹ giúp tỷ lệ cơ thể người mặc hài hòa hơn', 10, 4, 1)
+GO
+INSERT [dbo].[product] ([id], [name],[code],[color], [image], [price], [description], [quantity], [cateID], [status]) VALUES (38, N'QUẦN BÒ SLIM FIT',N'XD43',N'Xanh Đậm', N'q1.2.jfif', 300.000, N'Quần jeans ống suông, dài qua mắt cá chân. Kiểu bạc màu. Gấu lật. Có 5 túi. Cài phía trước bằng khóa kéo và khuy.', 10, 4, 1)
+GO
+INSERT [dbo].[product] ([id], [name],[code],[color], [image], [price], [description], [quantity], [cateID], [status]) VALUES (39, N'ÁO HODDIE PHỐI TÚI',N'XN43',N'Xám Nhạt',N't1.1.jfif', 249.000, N'Áo hoddie bé trai dài tay, dáng cơ bản', 10, 5, 1)
+GO
+INSERT [dbo].[product] ([id], [name],[code],[color], [image], [price], [description], [quantity], [cateID], [status]) VALUES (40, N'BỘ ĐỒ KHỦNG LONG BÉ TRAI',N'GD23',N'Vàng Xanh', N't2.1.jfif', 579.000, N'Áo thun cổ tròn, dài tay cơ bản,Quần cạp chun co giãn, gấu quần may bo', 10, 5, 1)
+GO
+INSERT [dbo].[product] ([id], [name],[code],[color], [image], [price], [description], [quantity], [cateID], [status]) VALUES (41, N'ÁO THUN IN HỌA TIẾT',N'HN43',N'Xanh Đậm', N't3.1.jfif', 369.000, N'Áo thun dài tay dáng cơ bản', 10, 5, 1)
+GO
+INSERT [dbo].[product] ([id], [name],[code],[color], [image], [price], [description], [quantity], [cateID], [status]) VALUES (42, N'BỘ ĐỒ THUN BÉ TRAI',N'LK54',N'Đen', N't4.1,jfif',169.000, N'Áo thun dài tay, cổ tròn có 3 khuy cài. Phía trước phối túi vuông nhỏ', 10, 5, 1)
+GO
+INSERT [dbo].[product] ([id], [name],[code],[color], [image], [price], [description], [quantity], [cateID], [status]) VALUES (43, N'ÁO THUN IN HỌA TIẾT',N'BV43',N'Xanh Đậm', N't5.1.jfif', 300.0000, N'Áo thun dài tay dáng cơ bản', 1, 5, 1)
+INSERT [dbo].[product] ([id], [name],[code],[color], [image], [price], [description], [quantity], [cateID], [status]) VALUES (44, N'BỘ ĐỒ KHỦNG LONG BÉ TRAI',N'HJ43',N'Xám Nhạt', N't6.1.jfif', 100.000, N'Chất liệu vải thun mềm mịn in họa tiết khủng long', 10, 5, 1)
+GO
+
+INSERT [dbo].[product] ([id], [name],[code],[color], [image], [price], [description], [quantity], [cateID], [status]) VALUES (45, N'ÁO HODDIE PHỐI TÚI	',N'LK43' ,N'Xám Nhạt',N't1.2.jfif', 199.000, N'Đây là sự kết hợp giữa chất liệu cotton organic và lớp kháng khuẩn mạnh mẽ được phủ lên trong quá trình hoàn thiện vải cuối cùng. Bởi vậy cotton kháng khuẩn không chỉ mang lại sự thoáng mát mà còn rất an toàn với làn da nhạy cảm của bé.', 10, 5, 1)
+GO
+SET IDENTITY_INSERT [dbo].[product] OFF
+GO
+SET IDENTITY_INSERT [dbo].[Shipping] ON 
+GO
+INSERT [dbo].[Shipping] ([id], [name], [phone], [address], [order_id]) VALUES (1, N'Đình Sáng', N'0981008250', N' Ha Noi', 1)
+GO
+SET IDENTITY_INSERT [dbo].[Shipping] OFF
+GO
+SET IDENTITY_INSERT [dbo].[UserInfo] ON 
+GO
+INSERT [dbo].[UserInfo] ([id], [First_Name], [Last_Name], [Birthday], [Gender], [Email], [PhoneNumber], [Username], [Password], [Address], [AccountId]) VALUES (1, N'Admin', N'Kds', CAST(N'2002-09-23' AS Date), 1, N'sangkdhe161711@gmail.com', N'0981008250', N'Admin', N'1234', N'Ha Noi', 1)
+GO
+INSERT [dbo].[UserInfo] ([id], [First_Name], [Last_Name], [Birthday], [Gender], [Email], [PhoneNumber], [Username], [Password], [Address], [AccountId]) VALUES (2, N'Đình', N'Sáng', CAST(N'2022-10-19' AS Date), 1, N'khuatdinhsang23092002@gmail.com', N'0363425466', N'sang', N'1234', N'HCM', 2)
+GO
+SET IDENTITY_INSERT [dbo].[UserInfo] OFF
+GO
+ALTER TABLE [dbo].[Order] ADD  CONSTRAINT [DF_Order_createdDate]  DEFAULT (getdate()) FOR [createdDate]
+GO
+ALTER TABLE [dbo].[OrderHistory] ADD  CONSTRAINT [DF_OrderHistory_confirmDate]  DEFAULT (getdate()) FOR [confirmDate]
+GO
+ALTER TABLE [dbo].[Cart]  WITH CHECK ADD  CONSTRAINT [FK_Cart_Account] FOREIGN KEY([AccountID])
+REFERENCES [dbo].[Account] ([id])
+GO
+ALTER TABLE [dbo].[Cart] CHECK CONSTRAINT [FK_Cart_Account]
+GO
+ALTER TABLE [dbo].[Order]  WITH CHECK ADD  CONSTRAINT [FK_Order_Account] FOREIGN KEY([accountId])
+REFERENCES [dbo].[Account] ([id])
+GO
+ALTER TABLE [dbo].[Order] CHECK CONSTRAINT [FK_Order_Account]
+GO
+ALTER TABLE [dbo].[OrderDetail]  WITH CHECK ADD  CONSTRAINT [FK_OrderDetail_Order] FOREIGN KEY([order_id])
+REFERENCES [dbo].[Order] ([id])
+GO
+ALTER TABLE [dbo].[OrderDetail] CHECK CONSTRAINT [FK_OrderDetail_Order]
+GO
+ALTER TABLE [dbo].[OrderDetail]  WITH CHECK ADD  CONSTRAINT [FK_OrderDetail_product] FOREIGN KEY([productId])
+REFERENCES [dbo].[product] ([id])
+GO
+ALTER TABLE [dbo].[OrderDetail] CHECK CONSTRAINT [FK_OrderDetail_product]
+GO
+ALTER TABLE [dbo].[OrderHistory]  WITH CHECK ADD  CONSTRAINT [FK_OrderHistory_Order] FOREIGN KEY([orderId])
+REFERENCES [dbo].[Order] ([id])
+GO
+ALTER TABLE [dbo].[OrderHistory] CHECK CONSTRAINT [FK_OrderHistory_Order]
+GO
+ALTER TABLE [dbo].[OrderHistory]  WITH CHECK ADD  CONSTRAINT [FK_OrderHistory_Shipping] FOREIGN KEY([shippingId])
+REFERENCES [dbo].[Shipping] ([id])
+GO
+ALTER TABLE [dbo].[OrderHistory] CHECK CONSTRAINT [FK_OrderHistory_Shipping]
+GO
+ALTER TABLE [dbo].[product]  WITH CHECK ADD  CONSTRAINT [FK_product_Category] FOREIGN KEY([cateID])
+REFERENCES [dbo].[Category] ([cid])
+GO
+ALTER TABLE [dbo].[product] CHECK CONSTRAINT [FK_product_Category]
+GO
+ALTER TABLE [dbo].[Shipping]  WITH CHECK ADD  CONSTRAINT [FK_Shipping_Order1] FOREIGN KEY([order_id])
+REFERENCES [dbo].[Order] ([id])
+GO
+ALTER TABLE [dbo].[Shipping] CHECK CONSTRAINT [FK_Shipping_Order1]
+GO
+ALTER TABLE [dbo].[UserInfo]  WITH CHECK ADD  CONSTRAINT [FK_UserInfo_Account] FOREIGN KEY([AccountId])
+REFERENCES [dbo].[Account] ([id])
+GO
+ALTER TABLE [dbo].[UserInfo] CHECK CONSTRAINT [FK_UserInfo_Account]
+GO
+USE [master]
+GO
+ALTER DATABASE [Prj_Shopping_Ivymoda] SET  READ_WRITE 
+GO

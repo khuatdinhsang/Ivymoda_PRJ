@@ -1,0 +1,134 @@
+/*
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/CascadeStyleSheet.css to edit this template
+*/
+/* 
+    Created on : Oct 18, 2022, 8:26:21 PM
+    Author     : Admin
+*/
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+li {
+    list-style-type: none;
+}
+
+a {
+    text-decoration: none;
+    color: #000;
+}
+
+.container {
+    max-width: 1300px;
+    margin: auto;
+}
+
+.row {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.register {
+    margin-top: 100px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid #ccc;
+}
+
+.col-md-6 {
+    flex: 1;
+}
+
+sup {
+    color: red;
+}
+
+.form_group {
+    display: flex;
+}
+
+.form_input {
+    width: 50%;
+}
+
+.form_input label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+.form_input input,
+.form_input select {
+    padding: 10px;
+    margin-bottom: 20px;
+    border: none;
+    outline: none;
+    border: 1px solid #ccc;
+    width: 85%;
+}
+
+.form_input_100 {
+    width: 100%;
+}
+
+.form_input_100 input {
+    width: 92.5%;
+}
+
+.form_input_100 textarea {
+    width: 92.5%;
+    height: 100px;
+}
+
+.w100 {
+    width: 100%;
+}
+
+.capcha {
+    border: 1px solid #ccc;
+    margin-bottom: 20px;
+}
+
+.apcept {
+    margin-bottom: 5px;
+    position: relative;
+    margin-left: 20px;
+    cursor: pointer;
+}
+
+.apcept i {
+    position: absolute;
+    color: rgb(33, 174, 199);
+    left: -17px;
+    display: none;
+}
+
+.btn_register {
+    width: 85%;
+    background-color: black;
+    padding: 12px 0;
+    text-transform: uppercase;
+    color: white;
+    text-align: center;
+    margin-top: 30px;
+    cursor: pointer;
+}
+
+.btn_register:hover {
+    opacity: 0.8;
+}
+
+.apcept .active {
+    display: block;
+}
+
+header {
+    background-color: #ccc;
+}
+
+header:hover {
+    background-color: #ccc;
+}
